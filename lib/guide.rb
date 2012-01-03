@@ -9,6 +9,11 @@
 require 'restaurant'
 
 class Guide
+  
+  class Config
+    @@actions = ['list','find', 'add', 'quit']
+    def self.actions; @@actions; end # return all of the valid actions
+  end
 
   def initialize(path=nil)
     # locate the resturant text file at that path
@@ -29,18 +34,31 @@ class Guide
     introduction
     
     result = nil
-    # action loop
+    # action loop which we repeat until the user quits
     until result == :quit
-      # what do you want to do? (list, find, add, quit)
-      print "> "
-      user_response = gets.chomp # whatever the user_response get it and chomp off the \n
-      # do the action
-      result = do_action(user_response)
-      # repeat until the user quits
+      action = get_action
+      result = do_action(action)
     end    
     conclusion
   end
   
+  
+  def get_action
+    # what do you want to do? (list, find, add, quit)
+    # initialize action    
+    action = nil
+    
+    # continuously ask the user for action until we get a valid one
+    until Guide::Config.actions.include?(action)
+      if !action.nil? 
+        puts "Actions Mike: " +  Guide::Config.actions.join(", ")
+      end
+      print "> "
+      user_response = gets.chomp # whatever the user_response get it and chomp off the \n     
+      action = user_response.downcase.strip # make all lowercase and take out whitespace
+    end
+    return action
+  end
   
   def do_action(action)
     # actions are list, find, add, quit 
@@ -54,13 +72,13 @@ class Guide
       when 'quit'
         return :quit
       else
-        puts "Command not found. Available options are list, add, find and quit \n"  
+        puts "Command not found, see available actions.\n"  
     end
   end
   
 
   def introduction
-    puts "\n\n[This is the Food Finder Application]\n\n"
+    puts "[This is the Food Finder Application]\n\n"
     puts "This program will suggestion some popular food places for you depending on the food you are currently craving.\n\n"
   end  
 

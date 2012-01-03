@@ -5,12 +5,24 @@
 #
 #
 
+# Load in this dependancy
+require 'restaurant'
+
 class Guide
 
   def initialize(path=nil)
     # locate the resturant text file at that path
-    # or create a new file
+    Restaurant.filepath = path
+    if Restaurant.file_exists?
+      puts "Found restaurant file."
+    # exit if create fails  
+    elsif Restaurant.create_file 
+      puts "Created restaurant file."
     # exit if create fails
+    else
+      puts "Exiting.\n\n"
+      exit!  
+    end
   end  
 
   def launch!

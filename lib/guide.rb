@@ -69,6 +69,7 @@ class Guide
         puts "Finding..."
       when 'add'
         puts "Adding..."
+        add_restaurant
       when 'quit'
         return :quit
       else
@@ -76,6 +77,18 @@ class Guide
     end
   end
   
+  def add_restaurant    
+    puts "\nAdd Restaurant\n".upcase
+    
+    restaurant = Restaurant.build_using_questions
+    
+    if restaurant.save
+      puts "\nRestaurant Added Successfully\n"
+    else
+      puts "\nSave Error: Restaurant Not Added\n\n"
+    end
+    
+  end
 
   def introduction
     puts "[This is the Food Finder Application]\n\n"

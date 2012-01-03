@@ -7,13 +7,14 @@
 class Restaurant
   
   @@filepath = nil
+
+  attr_accessor :name, :cuisine, :price
   
   # need to create this setter method in order to all @@filepath to be accessible from outside of the class
   def self.filepath=(path=nil)
     @@filepath = File.join(APP_ROOT, path)
   end
     
-  
   def self.file_exists?
     # determines if the restaurant file exists and that the class varible @@filepath has been set
     if @@filepath && File.exists?(@@filepath) 
@@ -46,5 +47,35 @@ class Restaurant
     # then for each restaurant in the file create an instant varible for it (Name, Cuisine and Price)
     
   end
+
+  def self.build_using_questions
+    args = {}
+    print "Name: "
+    args[:name] = gets.chomp.strip
+
+    print "Cuisine: "
+    args[:cuisine] = gets.chomp.strip
+
+    print "Price: "
+    args[:price] = gets.chomp.strip
+    
+    return self.new(args)
+  end
+
+  # instance methods
+  def initialize(args={})
+    @name     = args[:name]     || ""
+    @cuisine  = args[:cuisine]  || ""
+    @price    = args[:price]    || ""
+  end
+
+  def save
+    return false unless Restaurant.file_usable?
+    File.open(@@filepath, 'a') do |file|
+      file.puts "#{[@name, @cuisine, @price].join("\t")}\n"
+    end
+    return true
+  end
+
 
 end

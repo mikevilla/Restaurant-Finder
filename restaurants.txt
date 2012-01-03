@@ -1,0 +1,2 @@
+McDonalds	American	5
+RuthChris	American	50

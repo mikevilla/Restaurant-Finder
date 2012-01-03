@@ -15,11 +15,30 @@ class Restaurant
     
   
   def self.file_exists?
-    # determines if the restaurant file exists
+    # determines if the restaurant file exists and that the class varible @@filepath has been set
+    if @@filepath && File.exists?(@@filepath) 
+      return true
+    else 
+      return false
+    end
+  end
+  
+  def self.file_usable?
+    # another of checking besides using a if then or case statment.
+    # see if the filepath is set, exists on the file system, readable and is writable.
+    return false unless @@filepath
+    return false unless File.exists?(@@filepath)
+    return false unless File.readable?(@@filepath)
+    return false unless File.writable?(@@filepath)
+    return true
   end
   
   def self.create_file
     # this method creates the restaurant file
+    # create a file unless the file already exists
+    # return that the file is usable
+    File.open(@@filepath, 'w') unless file_exists?
+    return file_usable?
   end
   
   def self.saved_restaurants

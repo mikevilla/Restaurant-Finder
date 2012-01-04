@@ -42,12 +42,35 @@ class Restaurant
     return file_usable?
   end
   
-  def self.saved_restaurants
-    # this method reads the restaurant file
-    # then for each restaurant in the file create an instant varible for it (Name, Cuisine and Price)
+  # this method reads the restaurant file
+  def self.read_restaurant_file
+    restaurants = []
     
+    # then for each restaurant in the file create an instant varible for it (Name, Cuisine and Price)
+    if file_usable?
+      file = File.new(@@filepath, 'r')
+      file.each_line do |line|
+        # create an instance from each line
+        # for each line make split it apart. The atributes are separated with tabs.
+        restaurants << Restaurant.new.import_line(line.chomp)
+      end
+      file.close
+    end
+    return restaurants 
   end
-
+  
+  def import_line(line)
+    line_array = line.split("\t")
+    
+    # can you standard way to assign 
+    # @name = line_array[0] ...
+    # or use shift which would pull out the current element in the array
+    # @name = line_array.shift 
+    # but instead we'll use a shortcut and just do a triple assignment.
+    @name, @cuisine, @price = line_array
+    return self
+  end
+    
   def self.build_using_questions
     args = {}
     print "Name: "

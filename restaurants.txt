@@ -1,2 +1,4 @@
 McDonalds	American	5
 RuthChris	American	50
+CookingPapa	Chinese	30
+Del Taco	Mexican	12

@@ -65,6 +65,7 @@ class Guide
     case action 
       when 'list'
         puts "Listing..."
+        list
       when 'find'
         puts "Finding..."
       when 'add'
@@ -86,9 +87,20 @@ class Guide
       puts "\nRestaurant Added Successfully\n"
     else
       puts "\nSave Error: Restaurant Not Added\n\n"
-    end
-    
+    end  
   end
+  
+  def list
+    puts "\nList of Restaurants\n".upcase
+    restaurants = Restaurant.read_restaurant_file
+    restaurants.each do |establishment|
+      puts "Name: #{establishment.name}"
+      puts "Cuisine: #{establishment.cuisine}"
+      puts "Price: #{establishment.price}\n\n"
+    end
+  end
+    
+  
 
   def introduction
     puts "[This is the Food Finder Application]\n\n"
